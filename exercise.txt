@@ -1,0 +1,19 @@
+//Попробуй реализовать все функциии из списка:
+//min(array)
+//max(array) 
+//sum(arrray) 
+//product(array) = array[0] * array[1] * array[2]...
+//average(array)
+//removeAt(array, index) 
+//insertAfter(array, index, element)
+//concat(arrayA, arrayB)
+//indexOf(array, element)
+//reverse(array)
+//sort(array)
+// ф-ции которые ты написал
+
+//Нельзя использовать:
+//- let, var
+//- Любые функции и методы JS, кроме head(), tail() и prepend() выше
+//- Синтаксис [...array] и array[i]
+//- Мутации объектов obj.a = 10
