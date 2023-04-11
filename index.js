@@ -29,3 +29,6 @@ const min = (array) => {
 const sum = (array) => (array.length === 0 ? 0 : head(array) + sum(tail(array)))
 
 console.log(sum([3, 5, 10]))
+
+const product = (array) =>
+  array.length === 0 ? 1 : head(array) * product(tail(array))
