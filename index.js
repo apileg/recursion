@@ -32,3 +32,6 @@ console.log(sum([3, 5, 10]))
 
 const product = (array) =>
   array.length === 0 ? 1 : head(array) * product(tail(array))
+
+const average = (array) =>
+  array.length === 0 ? 0 : (head(array) + average(tail(array))) / array.length
