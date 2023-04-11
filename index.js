@@ -74,3 +74,10 @@ const insertAfter = (array, index, element) =>
 // index === 0 ; prepend(1, 5)
 // return prepend(3, prepend(4, [1,5])) => [3,4,1,5]
 console.log(insertAfter([3, 4, 5], 2, 1))
+
+const concat = (arrayA, arrayB) =>
+  arrayA.length === 0
+    ? arrayB
+    : prepend(head(arrayA), concat(tail(arrayA), arrayB))
+
+console.log(concat([3, 4, 5], [6, 7, 8]))
