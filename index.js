@@ -81,3 +81,14 @@ const concat = (arrayA, arrayB) =>
     : prepend(head(arrayA), concat(tail(arrayA), arrayB))
 
 console.log(concat([3, 4, 5], [6, 7, 8]))
+
+const indexOf = (array, element) => indexOfHelper(array, element, 0)
+
+const indexOfHelper = (array, element, index = 0) =>
+  array.length === 0
+    ? undefined
+    : head(array) === element
+    ? index
+    : indexOfHelper(tail(array), element, index + 1)
+
+console.log(indexOfHelper([3, 4, 5], 5))
