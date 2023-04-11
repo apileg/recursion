@@ -92,3 +92,8 @@ const indexOfHelper = (array, element, index = 0) =>
     : indexOfHelper(tail(array), element, index + 1)
 
 console.log(indexOfHelper([3, 4, 5], 5))
+
+const append = (tail, head) => [...tail, head]
+const reverse = (array) =>
+  array.length === 0 ? [] : append(reverse(tail(array)), head(array))
+console.log(reverse([3, 4, 5, 6]))
