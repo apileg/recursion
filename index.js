@@ -25,3 +25,7 @@ const min = (array) => {
   const result = minHelper(array, Infinity)
   return result === Infinity ? undefined : result
 }
+
+const sum = (array) => (array.length === 0 ? 0 : head(array) + sum(tail(array)))
+
+console.log(sum([3, 5, 10]))
