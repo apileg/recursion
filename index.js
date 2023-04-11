@@ -13,3 +13,15 @@ const max = (array) => {
   const result = maxHelper(array, -Infinity)
   return result === -Infinity ? undefined : result
 }
+
+const minHelper = (array, minSoFar) =>
+  array.length === 0
+    ? minSoFar
+    : head(array) < minSoFar
+    ? minHelper(tail(array), head(array))
+    : minHelper(tail(array), minSoFar)
+
+const min = (array) => {
+  const result = minHelper(array, Infinity)
+  return result === Infinity ? undefined : result
+}
