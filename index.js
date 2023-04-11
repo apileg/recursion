@@ -59,3 +59,18 @@ const removeAt = (array, index) =>
 //    The result will be an array [3, 4].
 
 console.log(removeAt([3, 4, 5], 2))
+
+const insertAfter = (array, index, element) =>
+  array.length === 0
+    ? array
+    : index === 0
+    ? prepend(element, array)
+    : prepend(head(array), insertAfter(tail(array), index - 1, element))
+// insertA([3,4,5], 2, 1)
+// h = 3 ; insertA([4,5], 2 - 1, 1)
+// insertA([4,5], 1, 1)
+// h = 4 ; prepend([5], 0, 1)
+// insertA([5], 0, 1)
+// index === 0 ; prepend(1, 5)
+// return prepend(3, prepend(4, [1,5])) => [3,4,1,5]
+console.log(insertAfter([3, 4, 5], 2, 1))
