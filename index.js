@@ -35,3 +35,27 @@ const product = (array) =>
 
 const average = (array) =>
   array.length === 0 ? 0 : (head(array) + average(tail(array))) / array.length
+
+const removeAt = (array, index) =>
+  array.length === 0
+    ? array
+    : index === 0
+    ? tail(array)
+    : prepend(head(array), removeAt(tail(array), index - 1))
+
+// Step by step. e.g removeAt([3,4,5], 2):
+// 1. execute removeAt() ; go to the prepend():
+//  1.1. head(array) = head([3,4,5]) = [3]
+//  1.2 removeAt(tail(array), index - 1) =
+//      = removeAt(tail([3,4,5]), 2 - 1):
+// 2. execute removeAt() ; go to the prepend():
+//  2.1 head(array) = [4]
+//  2.2 removeAt(tail(array, index - 1)) =
+//       = removeAt(tail([4,5], 1 - 1)) ;
+// 3. execute removeAt() ; go to the prepend():
+//  3.1 head(array) = [4],
+//  3.2 removeAt(5, 0) => tail(5) => []
+// 4. Then, as the recursion returns, a new array is formed by appending     each element from the original array except the element at index 2.
+//    The result will be an array [3, 4].
+
+console.log(removeAt([3, 4, 5], 2))
