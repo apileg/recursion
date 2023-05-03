@@ -26,33 +26,22 @@ const min = (array) => {
   return result === Infinity ? undefined : result
 }
 
-const sum = (array) =>
-  array.length === 0
-    ? 0
-    : head(array) + sum(tail(array))
+const sum = (array) => (array.length === 0 ? 0 : head(array) + sum(tail(array)))
 
 console.log(sum([3, 5, 10]))
 
 const product = (array) =>
-  array.length === 0
-    ? 1
-    : head(array) * product(tail(array))
+  array.length === 0 ? 1 : head(array) * product(tail(array))
 
 const average = (array) =>
-  array.length === 0
-    ? 0
-    : (head(array) + average(tail(array))) /
-      array.length
+  array.length === 0 ? 0 : (head(array) + average(tail(array))) / array.length
 
 const removeAt = (array, index) =>
   array.length === 0
     ? array
     : index === 0
     ? tail(array)
-    : prepend(
-        head(array),
-        removeAt(tail(array), index - 1)
-      )
+    : prepend(head(array), removeAt(tail(array), index - 1))
 
 // Step by step. e.g removeAt([3,4,5], 2):
 // 1. execute removeAt() ; go to the prepend():
@@ -76,14 +65,7 @@ const insertAfter = (array, index, element) =>
     ? array
     : index === 0
     ? prepend(element, array)
-    : prepend(
-        head(array),
-        insertAfter(
-          tail(array),
-          index - 1,
-          element
-        )
-      )
+    : prepend(head(array), insertAfter(tail(array), index - 1, element))
 // insertA([3,4,5], 2, 1)
 // h = 3 ; insertA([4,5], 2 - 1, 1)
 // insertA([4,5], 1, 1)
@@ -96,78 +78,62 @@ console.log(insertAfter([3, 4, 5], 2, 1))
 const concat = (arrayA, arrayB) =>
   arrayA.length === 0
     ? arrayB
-    : prepend(
-        head(arrayA),
-        concat(tail(arrayA), arrayB)
-      )
+    : prepend(head(arrayA), concat(tail(arrayA), arrayB))
 
 console.log(concat([3, 4, 5], [6, 7, 8]))
 
-const indexOf = (array, element) =>
-  indexOfHelper(array, element, 0)
+const indexOf = (array, element) => indexOfHelper(array, element, 0)
 
-const indexOfHelper = (
-  array,
-  element,
-  index = 0
-) =>
+const indexOfHelper = (array, element, index = 0) =>
   array.length === 0
     ? undefined
     : head(array) === element
     ? index
-    : indexOfHelper(
-        tail(array),
-        element,
-        index + 1
-      )
+    : indexOfHelper(tail(array), element, index + 1)
 
 console.log(indexOfHelper([3, 4, 5], 5))
 
 const append = (tail, head) => [...tail, head]
 
 const reverse = (array) =>
-  array.length === 0
-    ? []
-    : append(reverse(tail(array)), head(array))
+  array.length === 0 ? [] : append(reverse(tail(array)), head(array))
 
 console.log(reverse([3, 4, 5, 6]))
 
-// get head (f iter) and head (s iter); if head f > head s => append(s)
-const sort = (array) => {
-  if (array.length <= 1) {
-    return array
-  }
+const letIn =
+  (...args) =>
+  (f) =>
+    f(...args)
 
-  const mid = Math.floor(array.length / 2)
-  const left = sort(array.slice(0, mid))
-  const right = sort(array.splice(mid))
+const insertSorted = (x, list) =>
+  list.length === 0
+    ? [x]
+    : x <= head(list)
+    ? prepend(x, list)
+    : prepend(head(list), insertSorted(x, tail(list)))
 
-  return merge(left, right)
-}
+const sort = (list) =>
+  list.length === 0 ? list : insertSorted(head(list), sort(tail(list)))
 
-const merge = (left, right) => {
-  if (left.length === 0) {
-    return right
-  }
+const filter = (f, list) =>
+  list.length === 0
+    ? list
+    : f(head(list))
+    ? prepend(head(list), filter(f, tail(list)))
+    : filter(f, tail(list))
 
-  if (right.length === 0) {
-    return left
-  }
+// Quick sort (thanks, Tony)
+const qsort = (list) =>
+  list.length === 0
+    ? list
+    : letIn(head(list))((x) =>
+        letIn(
+          filter((a) => a < x, list),
+          filter((a) => a === x, list),
+          filter((a) => a > x, list)
+        )((lessThan, equalTo, greaterThan) =>
+          concat(concat(qsort(lessThan), equalTo), qsort(greaterThan))
+        )
+      )
 
-  const [leftHead, ...leftTail] = left
-  const [rightHead, ...rightTail] = right
-
-  if (leftHead < rightHead) {
-    return prepend(
-      leftHead,
-      merge(leftTail, right)
-    )
-  } else {
-    return prepend(
-      rightHead,
-      merge(left, rightTail)
-    )
-  }
-}
-
-console.log(sort([9, 2, 19, 3]))
+console.log(qsort([5, 10, 3, 0]))
